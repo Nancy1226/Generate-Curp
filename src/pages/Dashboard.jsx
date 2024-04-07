@@ -1,8 +1,17 @@
+import ReCAPTCHA from "react-google-recaptcha";
 import { Formik, Form } from "formik";
+import { useRef} from 'react';
 import Swal from 'sweetalert2';
 import Input from "../components/Input";
 
 function Dashboard() {
+    const captcha = useRef(null);
+    const onChange = () =>{
+        if(captcha.current.getValue()){
+          console.log("El usuario no es un robot")
+        }
+      }
+
     function generateCURP(name, firstName, lastName, birthDate, sexo, state) {
 
         function obtenerAnioDosDigitos(anio) {
@@ -172,10 +181,16 @@ function Dashboard() {
                             onChange={handleChange}
                         />
 
+                            <ReCAPTCHA 
+                            ref={captcha}
+                            sitekey="6Lc6YA8pAAAAAPIEg8YBkmffcCSzporvrtNWyXb1" onChange={onChange}
+                            className="pb-3.5"
+                            />
+
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full text-white bg-blue-600 hover:bg-primary-700  focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                            className="w-full text-white bg-blue-600 hover:bg-primary-700 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                         >
                         {isSubmitting ? "Generando.." : "Generar"}
                         </button>
